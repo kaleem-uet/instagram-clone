@@ -17,16 +17,17 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import SignedInStack from './Navigations';
 import HomeScreen from './screens/HomeScreen';
+import NewPostScreen from './screens/NewPostScreen';
 
 
-const App=()=>{
-  return (
-    <SafeAreaView style={{flex:1,backgroundColor:"black"}}>
-      <HomeScreen/>
-    </SafeAreaView>
-  );
-};
+export default function App(){ return <SignedInStack/>}
+  //   <SafeAreaView style={{flex:1,backgroundColor:"black"}}>
+  //     <NewPostScreen/>
+  //   </SafeAreaView>
+  // );
 
 
-export default App;
+
+ 

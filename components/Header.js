@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-export default function Header() {
+export default function Header({navigation}) {
   return (
     <View style={styles.container}>
       <Image
@@ -9,7 +9,7 @@ export default function Header() {
         source={require('../assests/header-logo.png')}
       />
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.87}>
+        <TouchableOpacity activeOpacity={0.87} onPress={()=>{navigation.push("NewPostScreen")}}>
           <Image style={styles.icon} source={require('../assests/add.png')} />
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.87}>
