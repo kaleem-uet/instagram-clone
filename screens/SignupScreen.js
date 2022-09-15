@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, StyleSheet, Image} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet, Image, ScrollView} from 'react-native';
 import React from 'react';
 import SignupForm from '../components/SignUp/SignupForm';
 
@@ -7,13 +7,14 @@ export default function SignupScreen({navigation}) {
     <SafeAreaView style={styles.container}>
       <View style={styles.logo}>
         <Image
-          source={require('../assests/story1.jpg')}
+          source={require('../assests/insta.jpg')}
           style={{width: 100, height: 100}}
         />
        
       </View>
-     
+     <ScrollView showsVerticalScrollIndicator={false}>
       <SignupForm navigation={navigation}/>
+      </ScrollView>
     </SafeAreaView>
   )
 }

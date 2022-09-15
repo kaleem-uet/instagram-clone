@@ -17,12 +17,13 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import AuthNavigation from './AuthNavigation';
 import SignedInStack from './Navigations';
 import HomeScreen from './screens/HomeScreen';
 import NewPostScreen from './screens/NewPostScreen';
 
 
-export default function App(){ return <SignedInStack/>}
+export default function App(){ return <AuthNavigation/>}
   //   <SafeAreaView style={{flex:1,backgroundColor:"black"}}>
   //     <NewPostScreen/>
   //   </SafeAreaView>

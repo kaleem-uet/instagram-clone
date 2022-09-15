@@ -4,8 +4,11 @@ import * as yup from 'yup';
 import {Formik, validateYupSchema} from 'formik';
 import {Button} from '@rneui/themed';
 import {Divider} from '@rneui/base';
+import firestore from '@react-native-firebase/firestore';
+import {firebase} from '@react-native-firebase/auth';
+
 const uploadePostSchema = yup.object().shape({
-  imgUrl: yup.string().url().required('A url is required'),
+  imgUrl: yup.string().required('A url is required'),
   caption: yup
     .string()
     .min(10, 'enter some caption')
@@ -15,11 +18,51 @@ const uploadePostSchema = yup.object().shape({
 const ProvidedImage = '../../assests/story1.jpg';
 export default function FormikPostUploader({navigation}) {
   const [thumbnail, setthumbnail] = React.useState(ProvidedImage);
+  const [CurrentLoggedInUser, setCurrentLoggedInUser] = React.useState();
+
+  const getUser = () => {
+    const user = firebase.auth().currentUser;
+    const subscriber = firestore()
+      .collection('Users')
+      .where('owner_uid', '==', user.uid)
+      .limit(1)
+      .onSnapshot(snapshot =>
+        snapshot.docs.map(doc => {
+          setCurrentLoggedInUser({
+            username: doc.data().username,
+            profilePicture: doc.data().profile_picture,
+          });
+        }),
+      );
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  };
+  React.useEffect(() => {
+    getUser();
+  }, []);
+
+  const UploadePostTofireBase = (imgurl, caption) => {
+    const unsubscribe = firestore()
+      .collection('Users')
+      .doc(firebase.auth().currentUser.email).collection("posts").add({
+        imgurl:imgurl,
+        user:CurrentLoggedInUser.username,
+        profile_picture:CurrentLoggedInUser.profilePicture,
+        owner_uid:firebase.auth().currentUser.uid,
+        caption:caption,
+        createAt:firebase.firestore.FieldValue.serverTimestamp(),
+        likes:0,
+        likes_by_user:[],
+        comment:[],
+      })
+      return unsubscribe;
+  };
   return (
     <Formik
       initialValues={{imgUrl: '', caption: ''}}
-      onSubmit={values => {console.log(values)
-       navigation.goBack()
+      onSubmit={values => {
+        UploadePostTofireBase(values.imgUrl,values.caption);
+        navigation.goBack();
       }}
       validationSchema={uploadePostSchema}>
       {({handleBlur, handleChange, errors, handleSubmit, values}) => (

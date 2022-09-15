@@ -3,14 +3,15 @@ import React from 'react';
 import {Divider} from '@rneui/themed';
 const UserNama = 'userName khan';
 const Liks="9000";
-export default function Post() {
+export default function Post({post,index}) {
+  console.log("this is post from post screen",post.imgurl);
   return (
-    <View style={{marginTop: 20}}>
-      <Divider width={1} orientation={'horizontal'} />
+    <View style={{marginBottom: 50}}>
+      <Divider width={0.5} orientation={'horizontal'} />
       <View style={{marginTop: 5}}>
-        <PostHeader />
+        <PostHeader/>
         <PosterImage />
-        <PostFootor/>
+        <PostFootor post={post} index={index}/>
       </View>
     </View>
   );
@@ -71,12 +72,12 @@ const PosterImage = () => (
   </>
 );
 
-const PostFootor=()=>(
+const PostFootor=({post})=>(
 
     <>
        <Icon/>
        <Likes/>
-       <Captions/>
+       <Captions caption={post.caption} username={post.user}/>
        <CommentSections/>
     </>
 
@@ -102,14 +103,14 @@ Post.comments.length > 1 ? "comments":"comments"
 
 
 
-const Captions=()=>(
+const Captions=({caption,username})=>(
   <>
     <View style={{marginTop:3}}>
       <Text style={{color:"white"}}>
        <Text style={{fontWeight:"600"}}>
-           {UserNama}
+           {username}
        </Text>
-      <Text> user aption here alluser aption here alluser aption here alluser aption here all</Text>
+      <Text>{caption}</Text>
       </Text>
     </View>
   </>

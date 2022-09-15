@@ -1,13 +1,22 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 
 export default function Header({navigation}) {
   return (
     <View style={styles.container}>
-      <Image
+     <TouchableOpacity onPress={()=>{
+     auth()
+     .signOut()
+     .then(() => console.log('User signed out!'));
+     }}>
+     <Image
         style={styles.logo}
         source={require('../assests/header-logo.png')}
       />
+     </TouchableOpacity>
+      
+      
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity activeOpacity={0.87} onPress={()=>{navigation.push("NewPostScreen")}}>
           <Image style={styles.icon} source={require('../assests/add.png')} />
